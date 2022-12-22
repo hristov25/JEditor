@@ -91,13 +91,13 @@ public abstract class JEditorUtils {
 		return fFontEditor;
 
 	}
-	
+
 	public static Font getDefaultFont() {
-		
+
 		return new Font(JEditorConstance.FONT_FAMILY,
 				JEditorConstance.FONT_STYLE,
 				JEditorConstance.FONT_SIZE);
-		
+
 	}
 
 	public static Font setFontAndSize( JComponent comp, int iStyle, int iSize) {
@@ -167,12 +167,12 @@ public abstract class JEditorUtils {
 		return iSize;
 
 	}
-	
+
 	/**
 	 * 
 	 * @return sFonts String[]
 	 */
-	
+
 	public static String[] FontsName() {
 
 		Font[] fLocalFonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
@@ -189,93 +189,127 @@ public abstract class JEditorUtils {
 		return sFonts;
 
 	}
-	
+
 	public static void underlineText(JTextComponent comp) {
-		
+
 		comp.setText(comp.getText());
-		
+
 	}
 
 	public static void readFile(File f, JTextComponent comp, JFrame fr) {
-		
+
 		Path p = Paths.get(f.getPath());
-				
+
 		try(BufferedReader reader = Files.newBufferedReader(p)){
-			
+
 			String line = null;
-			
+
 			while ((line = reader.readLine()) != null) {
-				
+
 				if (comp instanceof JTextArea) {
-															
+
 					((JTextArea) comp).append(line + "\n");
-					
-					
+
+
 				}else if(comp instanceof JTextPane) {
-					
-					
-					
+
+
+
 				}
-				
+
 			}
-			
-			
+
+
 		}catch (IOException e) {
-			
+
 			JOptionPane.showMessageDialog(fr, "Couldn't read selected file!", "Error message", JOptionPane.ERROR_MESSAGE);
-			
+
 		}
 
 	}
 
 	public static void writeFile(File f, JTextComponent comp, JFrame fr) {
-		
+
 		Path p = Paths.get(f.getPath());
-				
+
 		String s;
-		
+
 		byte[] data;
-		
+
 		if(comp instanceof JEditorTextArea) {
-			
+
 			s = comp.getText();
-						
+
 			data = s.getBytes();
-			
+
 			try(OutputStream out = new BufferedOutputStream(
 					Files.newOutputStream(p,StandardOpenOption.CREATE, StandardOpenOption.APPEND))){
-								
+
 				out.write(data, 0, data.length);
-				
+
 			}catch (IOException e) {
-				
+
 				JOptionPane.showMessageDialog(fr, "Error during writing a file.", "Error message", JOptionPane.ERROR_MESSAGE);
-				
+
 			}
-			
-			
+
+
 		}else if(comp instanceof JTextPane) {
-			
-			
-			
+
+
+
 		}
-		
+
 	}
-	
+
+	public static void cutCopyPaste(JTextComponent comp, String options) {
+
+		int selStart = comp.getSelectionStart();
+
+		int selEnd = comp.getSelectionEnd();
+
+		if(options.equals("Paste")) {
+
+			comp.paste();
+
+		}else {
+
+			if(selStart != selEnd) {
+
+				if(options.equals("Cut")) {
+
+					comp.cut();
+
+				}else if(options.equals("Copy")){
+
+					comp.copy();
+
+				}
+
+			}else {
+
+				return;
+
+			}
+
+		}
+
+	}
+
 	public static String colorText(JTextComponent comp) {
-		
+
 		String sColorRGB;
-		
+
 		int ired = comp.getForeground().getRed();
-		
+
 		int igreen = comp.getForeground().getGreen();
-		
+
 		int iblue = comp.getForeground().getBlue();
-		
+
 		sColorRGB = "RGB" + "(" + ired + " , " + igreen + " , " + iblue + ")";
-		
+
 		return sColorRGB;
-		
+
 	} 
 
 }
