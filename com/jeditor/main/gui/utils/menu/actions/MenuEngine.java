@@ -77,7 +77,9 @@ public class MenuEngine implements ActionListener {
 		taPane = JTextEditor.getjEditorGui().getTabbedPane();
 
 		int iTab = 0;
-
+		
+		JTextComponent textComp;
+		
 		JScrollPane sPane;
 
 		JViewport viewport;
@@ -87,12 +89,16 @@ public class MenuEngine implements ActionListener {
 			sPane = (JScrollPane) taPane.getSelectedComponent();
 
 			viewport = sPane.getViewport();
+			
+			textComp = (JTextComponent) viewport.getView();
 
 		}else {
 
 			sPane = null;
 
 			viewport = null;
+			
+			textComp = null;
 
 		}
 
@@ -237,15 +243,21 @@ public class MenuEngine implements ActionListener {
 			break;
 
 		case "Cut":
-
+						
+			JEditorUtils.cutCopyPaste(textComp, itemText);
+						
 			break;
 
 		case "Copy":
-
+			
+			JEditorUtils.cutCopyPaste(textComp, itemText);
+			
 			break;
 
 		case "Paste":
-
+			
+			JEditorUtils.cutCopyPaste(textComp, itemText);
+			
 			break;
 
 		case "Edit text":
